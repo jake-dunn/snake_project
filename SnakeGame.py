@@ -8,14 +8,14 @@ class SnakeGame:
         self.test = test
         self.grid = self.make_grid(size)
         self.grid_size = size
+        self.head_val = 3
         self.move_snake_body = self.v_move_snake_body()
         self.plot_snake = self.v_plot_snake()
         self.dead = False
-        self.head_val = 3
 
         if not self.test:
             self.spawn_reward()
-            self.plot_grid()
+
 
     def plot_grid(self):
         if not self.test:
@@ -57,9 +57,9 @@ class SnakeGame:
         self.dead = self.fatal_move(grid, new_head_loc)
         if not self.dead:
             self.grid = self.update_grid(grid, new_head_loc)
-            self.plot_grid()
+            #self.plot_grid()
         else:
-            self.plot_grid()
+            #self.plot_grid()
             print(f'You died, your score was {self.head_val - 3}')
         return
 

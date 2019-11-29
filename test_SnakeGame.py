@@ -1,12 +1,12 @@
 import unittest
 import numpy as np
-from SnakeGame import snakeGame
+from SnakeGame import SnakeGame
 
 
 class TestSnakeGame(unittest.TestCase):
 
     def test_make_grid_input(self):
-        sg = snakeGame()
+        sg = SnakeGame(test=True)
         # input must be an int
         self.assertRaises(Exception, sg.make_grid, 6.3)
         self.assertRaises(Exception, sg.make_grid, 'Snake')
@@ -20,7 +20,7 @@ class TestSnakeGame(unittest.TestCase):
         #       [-1, 0, 0, 0, 0,-1],
         #       [-1, 0, 0, 0, 0,-1],
         #       [-1,-1,-1,-1,-1,-1]]
-        sg = snakeGame()
+        sg = SnakeGame()
         expected_grid = np.array([[-1, -1, -1, -1, -1, -1], [-1, 1, 2, 3, 0, -1], [-1, 0, 0, 0, 0, -1],
                                   [-1, 0, 0, 0, 0, -1], [-1, 0, 0, 0, 0, -1], [-1, -1, -1, -1, -1, -1]])
         np.testing.assert_equal(sg.make_grid(6), expected_grid)
@@ -34,12 +34,12 @@ class TestSnakeGame(unittest.TestCase):
         #       [-1, 0, 0, 0, 0,-1],
         #       [-1,-1,-1,-1,-1,-1]]
         # -> (1,3)
-        sg = snakeGame()
+        sg = SnakeGame(test=True)
         head_loc = sg.find_head_loc(sg.grid, 3)
         np.testing.assert_equal(head_loc, np.array([1, 3]))
 
     def test_new_end_loc(self):
-        sg = snakeGame()
+        sg = SnakeGame(test=True)
         head_loc = np.array([1, 3])
         np.testing.assert_equal(sg.new_end_loc(head_loc, 'down'), np.array([2, 3]))
         np.testing.assert_equal(sg.new_end_loc(head_loc, 'up'), np.array([0, 3]))
@@ -55,7 +55,7 @@ class TestSnakeGame(unittest.TestCase):
         #       [-1, 0, 0, 0, 0,-1],
         #       [-1,-1,-1,-1,-1,-1]]
         # up and left -> True, down and right -> False
-        sg = snakeGame()
+        sg = SnakeGame(test=True)
         grid = sg.grid
         head_loc_down = np.array([2, 3])
         head_loc_right = np.array([1, 4])
@@ -80,7 +80,7 @@ class TestSnakeGame(unittest.TestCase):
         #         [-1, 0, 0, 0, 0,-1],
         #         [-1, 0, 0, 0, 0,-1],
         #         [-1,-1,-1,-1,-1,-1]]
-        sg = snakeGame()
+        sg = SnakeGame(test=True)
         grid = sg.grid
         head_loc_down = np.array([2, 3])
         expected_updated_grid = np.array(

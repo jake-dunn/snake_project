@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class SnakeGame:
 
-
-    def __init__(self, size=6):
+    def __init__(self, size=6, test=False):
+        self.test = test
         self.grid = self.make_grid(size)
         self.grid_size = size
         self.move_snake_body = self.v_move_snake_body()
@@ -12,12 +13,14 @@ class SnakeGame:
         self.dead = False
         self.head_val = 3
 
-        self.spawn_reward()
-        self.plot_grid()
+        if not self.test:
+            self.spawn_reward()
+            self.plot_grid()
 
     def plot_grid(self):
-        plt.matshow(self.plot_snake(self.grid, self.head_val))
-        plt.show()
+        if not self.test:
+            plt.matshow(self.plot_snake(self.grid, self.head_val))
+            plt.show()
 
     @staticmethod
     def v_plot_snake():
@@ -28,6 +31,7 @@ class SnakeGame:
                 return 2
             else:
                 return pixel
+
         v_plot_snake = np.vectorize(plot_snake)
         return v_plot_snake
 
@@ -38,12 +42,13 @@ class SnakeGame:
                 return segment - 1
             else:
                 return segment
+
         v_move_snake_body = np.vectorize(move_snake_body)
         return v_move_snake_body
 
     def move_snake(self, direction):
         if self.dead:
-            print(f'You died, your score was {self.head_val-3}')
+            print(f'You died, your score was {self.head_val - 3}')
             return
         grid = self.grid
         head_val = self.head_val
@@ -55,11 +60,11 @@ class SnakeGame:
             self.plot_grid()
         else:
             self.plot_grid()
-            print(f'You died, your score was {self.head_val-3}')
+            print(f'You died, your score was {self.head_val - 3}')
         return
 
     def update_grid(self, grid, head_loc):
-        #reward?
+        # reward?
         if grid[head_loc[0], head_loc[1]] == -2:
             self.head_val += 1
             self.spawn_reward()
@@ -78,7 +83,7 @@ class SnakeGame:
 
     @staticmethod
     def random_index(grid_size):
-        return [np.random.randint(1, grid_size-1), np.random.randint(1, grid_size-1)]
+        return [np.random.randint(1, grid_size - 1), np.random.randint(1, grid_size - 1)]
 
     @staticmethod
     def fatal_move(grid, new_head_loc):
@@ -102,8 +107,6 @@ class SnakeGame:
         # find head
         return np.array(np.where(grid == head_val)).flatten()
 
-
-
     @staticmethod
     def make_grid(size):
         """
@@ -112,13 +115,13 @@ class SnakeGame:
         assert size > 4
         assert type(size) == int
         # initialise all to empty space
-        game_board = np.reshape(np.zeros(size*size), (size, size))
+        game_board = np.reshape(np.zeros(size * size), (size, size))
         # fill in border
         game_board[0] = np.full(size, -1)
-        game_board[size-1] = np.full(size, -1)
-        for row_index in range(1, size-1):
+        game_board[size - 1] = np.full(size, -1)
+        for row_index in range(1, size - 1):
             game_board[row_index][0] = -1
-            game_board[row_index][size-1] = -1
+            game_board[row_index][size - 1] = -1
         # add snake
         game_board[1][1] = 1
         game_board[1][2] = 2

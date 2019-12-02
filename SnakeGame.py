@@ -22,6 +22,13 @@ class SnakeGame:
             plt.matshow(self.plot_snake(self.grid, self.head_val))
             plt.show()
 
+    def reset_snake(self):
+        self.grid = self.make_grid(self.grid_size)
+        self. head_val = 3
+        self.dead = False
+        self.spawn_reward()
+
+
     @staticmethod
     def v_plot_snake():
         def plot_snake(pixel, head_val):
